@@ -33,6 +33,28 @@ plot(vehicle.sales, type = "l")
 #----------------------------------
 
 # Use Weibull distribution for replacement due to wear or damage
-plot(dweibull(1:100, shape = 0.8))
+weibull_hazard <- function(x, shape, peak = 1, valley = 0) {
+  ## Weibull hazard function
+  h.x <- shape * x ^ (shape - 1)
+  
+  if(shape != 1) {
+  ## Scale to expected probabilities
+  # Scale
+  range <- (peak - valley) / 2
+  range.h.x <- (range(h.x)[2] - range(h.x)[1]) / 2
+  scaler <- range / range.h.x
+  h.x <- h.x * scaler
 
+    # Center
+  center <- ((peak - valley) / 2) + valley
+  center.h.x <- ((max(h.x) - min(h.x)) / 2) + min(h.x)
+  h.x <- h.x + (center - center.h.x)
+  } else {
+    h.x <- h.x - (mean(h.x) - valley)
+  }
 
+  return(h.x)
+}
+
+zz <- weibull_hazard(1:100, shape = 5, peak = .8, valley = 0.05)
+plot(zz)
