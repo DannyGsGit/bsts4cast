@@ -32,10 +32,7 @@ plot(vehicle.sales, type = "l")
 #### Generate replacement data ####
 #----------------------------------
 
-# A normal distribution for replacement rate due to damage
-
-# A weibull distribution for replacement due to wear
-
-
+# Use Weibull distribution for replacement due to wear or damage
+plot(dweibull(1:100, shape = 0.8))
 
 
